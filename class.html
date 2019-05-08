@@ -35,23 +35,23 @@
   </body>
   <script>
   function print_name(){
-  ans = document.getElementById("keyword").getAttribute("value");
-  window.alert(ans);
-  $.ajax({
-  type: "GET",
-  url: "./test.php",
-  dataType: "json",
-  data: {'data':ans},
-  cache: false,
-  success: function(response){
-  window.alert(response);
-  // location.reload();
-  },
-  error: function(xhr){
-  window.alert(xhr);
-  // location.reload();
-  }
-  });
-  }
+    ans = document.getElementById("keyword").getAttribute("value");
+    window.alert(ans);
+    $.ajax({
+        type: "GET",
+        url: "./test.php",
+        //dataType: "json",
+        data: {'data':ans},
+        cache: false,
+        success: function(response){
+          //window.alert(response);
+          location.href = "./index.php";
+        },
+        error: function(xhr){
+          //window.alert(xhr);
+          //ocation.reload();
+        }
+      });
+    }
   </script>
 </html>
