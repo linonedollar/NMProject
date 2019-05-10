@@ -4,6 +4,7 @@
 	$ans = $_GET['data'];
 	$data_arr = json_decode($ans,true);
 	
+    date_default_timezone_set("Asia/Taipei");
  	$start = date("Y-m-d H:i:s"); 
 
     $servername = "localhost";
@@ -12,18 +13,41 @@
     $password = "1234";
 
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $account, $password);
-    // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // prepare sql and bind parameters
-    $stmt = $conn->prepare("Insert into lesson_stu_list(student_id,lesson_name,lesson_time) value(:student_id,:lesson_name,:lesson_time)"); //prepareStatement
+    $search_ = $conn->prepare("SELECT * FROM lesson_stu_list WHERE student_id = :student_id and lesson_id = :lesson_id");
+    $search_->bindParam(':student_id', $id);
+    $search_->bindParam(':lesson_id', $ans);
+    $search_->execute();
+    $default_ = $search_->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt->bindParam(':student_id', $id); //加入參數
-    $stmt->bindParam(':lesson_name', $ans);
-    $stmt->bindParam(':lesson_time', $start);
+    if($default_){
+        echo "已註冊，請勿重複註冊";
+        header("Refresh:1,url=./index.php");
+    }
+    else{
+        $search = $conn->prepare("SELECT * FROM lesson WHERE lesson_id = :lesson_id");
+        $search->bindParam(':lesson_id', $ans);
+        $search->execute();
+        $default = $search->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt->execute(); //執行查詢
+        if(strtotime($start) >= strtotime($default[0]['start_time']) && strtotime($start) <= strtotime($default[0]['end_time'])){
+            $stmt = $conn->prepare("INSERT INTO lesson_stu_list(student_id,lesson_id,lesson_name,lesson_time) VALUE(:student_id,:lesson_id,:lesson_name,:lesson_time)");
 
-    //header("Refresh:1,url=index.php");
-    header("Location: ./index.php");
+            $stmt->bindParam(':student_id', $id);
+            $stmt->bindParam(':lesson_id', $ans);
+            $stmt->bindParam(':lesson_name', $default[0]['lesson_name']);
+            $stmt->bindParam(':lesson_time', $start);
+
+            $stmt->execute();
+
+            echo "註冊成功";
+            header("Refresh:1,url=./index.php");
+        }
+        else{
+            echo "因您的時間因素，故無法註冊課程";
+            header("Refresh:1,url=./index.php");
+        }
+
+    }
 ?>

@@ -21,6 +21,11 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-info btn-lg btn-block"><a class="return" href=".">回首頁</a></button>
+        </div>
+      </div>
     </div>    <canvas id="qr-canvas" width="800" height="600"></canvas>
     <script type="text/javascript">
     load();
@@ -36,20 +41,19 @@
   <script>
   function print_name(){
     ans = document.getElementById("keyword").getAttribute("value");
-    window.alert(ans);
     $.ajax({
         type: "GET",
         url: "./test.php",
-        //dataType: "json",
+        // dataType: "text",
         data: {'data':ans},
         cache: false,
         success: function(response){
-          //window.alert(response);
+          window.alert(response);
           location.href = "./index.php";
         },
         error: function(xhr){
-          //window.alert(xhr);
-          //ocation.reload();
+          window.alert(xhr);
+          location.reload();
         }
       });
     }

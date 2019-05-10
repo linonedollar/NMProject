@@ -28,15 +28,15 @@
                 <div class="form-group">
                     <input type="file" class="btn-lg btn-block form-control" name="user_photo" id="user_photo" placeholder="請上傳圖片" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block"><a href="#"
-                    style="color:white;">開始上課</a></button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block" style="color:white;">
+                  開始上課</button>
                 <button type="button" class="btn btn-lg btn-block line" onclick="LineAuth()">Line 登入</button>
             </form>
             </div>
         </div>
         </div>
     </div>
-    <script src="assets/js/line.js"></script>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
